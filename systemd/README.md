@@ -3,7 +3,7 @@
 First step is to pull the container.
 
 ```console
-podman pull registry.access.redhat.com/ubi8/httpd-2
+podman pull registry.access.redhat.com/ubi8/httpd-24
 ```
 
 Next use `podman inspect` to see which network ports are exposed.
@@ -31,10 +31,10 @@ You are now ready to start the container.
 podman run -d --name httpd -v ~/www:/var/www:z -p 8080:8080 registry.access.redhat.com/ubi8/httpd-24
 ```
 
-. -d Detached mode, run the container in the background
-. --name Define the container name
-. -v Create a bind mount, the :z at the end is for SELinux permissions
-. -p Publish the containers ports to the host
+* -d Detached mode, run the container in the background
+* --name Define the container name
+* -v Create a bind mount, the :z at the end is for SELinux permissions
+* -p Publish the containers ports to the host
 
 Very your container is running with the `podman ps` command.
 
