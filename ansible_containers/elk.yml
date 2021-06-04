@@ -1,0 +1,68 @@
+---
+- name: Setup up an ELK stack with podman
+  hosts: localhost
+  connection: local
+  vars:
+    pod: elk
+    hostname: elk
+    version: 7.13.0
+    elk_cluster_name: elk-cluster
+  tasks:
+
+  - name: Create elasticsearch config dir
+    file:
+      path: "{{ ansible_user_dir }}/etc/elasticsearch"
+      state: directory
+      mode: '0755'
+      setype: container_file_t
+
+  - name: Create logstash config dir
+    file:
+      path: "{{ ansible_user_dir }}/etc/logstash/pipeline"
+      state: directory
+      mode: '0755'
+      setype: container_file_t
+
+  - name: Copy elasticsearch config file
+    template:
+      dest: "{{ ansible_user_dir }}/etc/elasticsearch/elasticsearch.yml"
+      src: elasticsearch.yml.j2
+      mode: '0644'
+      setype: container_file_t
+
+  - name: Create ELK pod
+    containers.podman.podman_pod:
+      name: "{{ pod }}"
+      hostname: "{{ hostname }}"
+      state: started
+      ports:
+        - 5601:5601
+        - 9200:9200
+        - 8443:443
+
+  - name: Create kibana container
+    containers.podman.podman_container:
+      name: kibana
+      state: started
+      pod: "{{ pod }}"
+      image: "docker.elastic.co/kibana/kibana:{{ version }}"
+
+  - name: Create logstash container
+    containers.podman.podman_container:
+      name: logstash
+      state: started
+      pod: "{{ pod }}"
+      image: "docker.elastic.co/logstash/logstash:{{ version }}"
+      volume:
+        - "{{ ansible_user_dir }}/etc/logstash/pipeline:/usr/share/logstash/pipeline"
+
+  - name: Create elasticsearch container
+    containers.podman.podman_container:
+      name: elasticsearch
+      state: started
+      pod: "{{ pod }}"
+      image: "docker.elastic.co/elasticsearch/elasticsearch:{{ version }}"
+      env:
+        discovery.type: single-node
+      volume:
+        - "{{ ansible_user_dir }}/etc/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml"

@@ -34,7 +34,7 @@ podman run -d --name httpd -v ~/www:/var/www:z -p 8080:8080 registry.access.redh
 * -d Detached mode, run the container in the background
 * --name Define the container name
 * -v Create a bind mount, the :z at the end is for SELinux permissions
-* -p Publish the containers ports to the host
+*ti -p Publish the containers ports to the host
 
 Very your container is running with the `podman ps` command.
 
