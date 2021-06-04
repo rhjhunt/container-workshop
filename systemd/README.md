@@ -36,7 +36,7 @@ podman run -d --name httpd -v ~/www:/var/www:z -p 8080:8080 registry.access.redh
 * -d Detached mode, run the container in the background
 * --name Define the container name
 * -v Create a bind mount, the :z at the end is for SELinux permissions
-*ti -p Publish the containers ports to the host
+* -p Publish the containers ports to the host
 
 Very your container is running with the `podman ps` command.
 
@@ -70,4 +70,11 @@ systemctl --user status container-httpd.service
 podman ps
 ```
 
-Your container is now being managed by a systemd service file.
+Your container is now being managed by a systemd service file. When you are finished
+you can stop and remove the container and service file.
+
+```console
+systemctl --user stop container-httpd
+podman rm httpd
+rm ~/.config/systemd/user/container-httpd.service
+```

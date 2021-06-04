@@ -54,3 +54,9 @@ $ podman run --rm -it --workdir "$(pwd)" --volume "${HOME}:${HOME}:rslave" --sec
 ./README.md:16: MD013 Line length
 ./README.md:51: MD013 Line length
 ```
+
+When you are done you can remove the container with the `podman rmi` command.
+
+```console
+podman rmi localhost/mdl
+```

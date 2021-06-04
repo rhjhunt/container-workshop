@@ -4,6 +4,8 @@ In this excercise you will install an elasticsearch, logstash, and kibana (ELK) 
 A Pod will be created to hold the containers, using an Ansible playbook to setup
 everything.
 
+> **NOTE** You may need to open firewall ports, if you have a firewall running.
+
 First the _containers.podman_ Ansible collection is installed.
 
 ```console
@@ -39,9 +41,10 @@ b4f160d78e23  docker.elastic.co/elasticsearch/elasticsearch:7.13.0
 You can access your elk stack at http://localhost:5601/
 
 Once you are done you can remove the containers with the `podman rm` command and 
-using the container ids.
+using the container ids or container names.
 
 ```console
-podman stop 22f06e318334 2238a8286653 8dbc31818ade b4f160d78e23
-podman rm 22f06e318334 2238a8286653 8dbc31818ade b4f160d78e23
+podman pod stop elk
+podman rm kibana logstash elasticsearch
+podman pod rm elk
 ```
