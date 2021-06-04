@@ -8,7 +8,7 @@ podman pull registry.access.redhat.com/ubi8/httpd-24
 
 Next use `podman inspect` to see which network ports are exposed.
 
-> :note: You may need to open firewall ports, if you have a firewall running.
+> **NOTE** You may need to open firewall ports, if you have a firewall running.
 
 ```console
 $ podman inspect registry.access.redhat.com/ubi8/httpd-24 --format "{{.Config.ExposedPorts}}"
