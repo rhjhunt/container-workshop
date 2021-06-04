@@ -25,7 +25,7 @@ Once the playbook has completed running you should have a podman pod with 4 cont
 ```console
 $ podman pod ps
 POD ID        NAME    STATUS    CREATED            INFRA ID      # OF CONTAINERS
-204a25d8bdd8  elk     Degraded  About an hour ago  22f06e318334  4
+204a25d8bdd8  elk     Running   About an hour ago  22f06e318334  4
 ```
 
 You can also list all the containers.
